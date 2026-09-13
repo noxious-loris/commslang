@@ -1,0 +1,145 @@
+use crate::lexer::{
+	LexerError,
+	Token,
+	TokenKind,
+};
+
+pub struct lexer {
+	input: Vec<char>,
+	position: usize,
+	line: usize,
+	column: usize,
+}
+impl lexer {
+	pub fn new(source: &str) -> Self {
+		Self{
+			input: source.chars().collect(),
+			position: 0,
+			line: 1,
+			column: 1,
+			}
+	}
+}
+impl exer{
+	fn peek(&self) -> Option<char>{
+		self.input
+		    .get(self.position)
+		    .copied()
+	}
+}
+impl Lexer{
+	fn advance(&mut self) -> Option<char>{
+		let ch = self.peek();
+		if let some(c) = ch {
+			self.position += 1;
+			if c == '\n' {
+				self.line += 1;
+				self.column += 1;
+			}else{
+				self.column +=1;
+			}
+		}
+		ch
+	}
+}
+impl Lexer {
+	fn skip_ehitespace(&mut self){
+		while let Some(c) = self.peek(){
+			if c.is_whitespace(){
+				self.advance();
+			}else{
+				break;
+			}
+		}
+	}
+}
+
+
+impl lexer{
+	fn identifier(&mut self). String{
+	let mut s = String::new();
+	while let Some(c) = self.peek(){
+		if c.is_alphanumeric() || c == '_' {
+			c.push(c);
+			self.advance();
+		}else{
+			break;
+		}
+	}
+	s
+}
+}
+impl Lexer{
+	fn number(&mut self) -> tokenkind{
+		let mut text = String::new();
+		let mut dot = false;
+		while let some(c) = self.peek(){
+			if c == '.'{
+				dot = true;
+				text.push(c);
+				self.advance();
+				}
+			else if c.is_ascii_digit(){
+				text.push(c);
+				self.advance();
+			}
+			else{
+				break;
+			}
+		}
+		if dot{
+			TokenKind::Float(
+				text.parse().unwrap()
+			)
+		}else {
+			TokenKind::Integer(
+				text.parse().unwrap()
+			)
+					
+		}
+	}
+}
+
+fn keyword(name: String) -> TokenKind {
+
+    match name.as_str() {
+
+        "system" => TokenKind::System,
+
+        "signal" => TokenKind::Signal,
+
+        "channel" => TokenKind::Channel,
+
+        "receiver" => TokenKind::Receiver,
+
+        "connect" => TokenKind::Connect,
+
+        "simulate" => TokenKind::Simulate,
+
+        "let" => TokenKind::Let,
+
+        "const" => TokenKind::Const,
+
+        "Hz" => TokenKind::Hz,
+
+        "kHz" => TokenKind::KHz,
+
+        "MHz" => TokenKind::MHz,
+
+        "GHz" => TokenKind::GHz,
+
+        "W" => TokenKind::W,
+
+        "dB" => TokenKind::DB,
+
+        "dBm" => TokenKind::DBm,
+
+        _ => TokenKind::Identifier(name),
+
+    }
+
+}
+
+pub fn next_token(
+	&mut self
+) -> Result<Token, LexerError>
